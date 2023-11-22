@@ -16,13 +16,15 @@ namespace TootTallyTrombuddies
     public static class TrombuddiesGameObjectFactory
     {
         private static GameObject _userCardPrefab;
+        private static TrombuddiesManager __instance;
 
         [HarmonyPatch(typeof(GameObjectFactory), nameof(GameObjectFactory.OnHomeControllerInitialize))]
         [HarmonyPostfix]
         public static void InitializeTootTallySettingsManager(HomeController homeController)
         {
             SetUserCardPrefab();
-            Plugin.Instance.gameObject.AddComponent<TrombuddiesManager>();
+            if (__instance == null)
+                __instance = Plugin.Instance.gameObject.AddComponent<TrombuddiesManager>();
         }
 
         private static void SetUserCardPrefab()
@@ -152,5 +154,10 @@ namespace TootTallyTrombuddies
                 "Mutuals" => new Color(1, 0, 1, 1),
                 _ => new Color(0, 0, 0, 1),
             };
+
+        public static void Dispose()
+        {
+            GameObject.DestroyImmediate(__instance);
+        }
     }
 }

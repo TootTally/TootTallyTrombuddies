@@ -66,6 +66,7 @@ namespace TootTallyTrombuddies
 
         public void UnloadModule()
         {
+            TrombuddiesGameObjectFactory.Dispose();
             _harmony.UnpatchSelf();
             settingPage.Remove();
             LogInfo($"Module unloaded!");
