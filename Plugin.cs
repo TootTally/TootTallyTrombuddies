@@ -7,23 +7,24 @@ using TootTallyCore.Utils.TootTallyModules;
 using TootTallySettings;
 using UnityEngine;
 
-namespace TootTally.ModuleTemplate
+namespace TootTallyTrombuddies
 {
     [BepInPlugin(PluginInfo.PLUGIN_GUID, PluginInfo.PLUGIN_NAME, PluginInfo.PLUGIN_VERSION)]
     [BepInDependency("TootTallyCore", BepInDependency.DependencyFlags.HardDependency)]
     [BepInDependency("TootTallySettings", BepInDependency.DependencyFlags.HardDependency)]
+    [BepInDependency("TootTallyAccounts", BepInDependency.DependencyFlags.HardDependency)]
     public class Plugin : BaseUnityPlugin, ITootTallyModule
     {
         public static Plugin Instance;
 
-        private const string CONFIG_NAME = "ModuleTemplate.cfg";
+        private const string CONFIG_NAME = "Trombuddies.cfg";
         public Options option;
         private Harmony _harmony;
         public ConfigEntry<bool> ModuleConfigEnabled { get; set; }
         public bool IsConfigInitialized { get; set; }
 
         //Change this name to whatever you want
-        public string Name { get => PluginInfo.PLUGIN_NAME; set => Name = value; }
+        public string Name { get => "Trombuddies"; set => Name = value; }
 
         public static TootTallySettingPage settingPage;
 
@@ -42,30 +43,30 @@ namespace TootTally.ModuleTemplate
         private void TryInitialize()
         {
             // Bind to the TTModules Config for TootTally
-            ModuleConfigEnabled = TootTallyCore.Plugin.Instance.Config.Bind("Modules", "<insert module name here>", true, "<insert module description here>");
+            ModuleConfigEnabled = TootTallyCore.Plugin.Instance.Config.Bind("Modules", "Trombuddies", true, "Friend list system for TootTallyCore");
             TootTallyModuleManager.AddModule(this);
-            TootTallySettings.Plugin.Instance.AddModuleToSettingPage(this);
         }
 
         public void LoadModule()
         {
             string configPath = Path.Combine(Paths.BepInExRootPath, "config/");
-            ConfigFile config = new ConfigFile(configPath + CONFIG_NAME, true);
+            ConfigFile config = new ConfigFile(configPath + CONFIG_NAME, true) {  SaveOnConfigSet = true };
             option = new Options()
             {
-                // Set your config here by binding them to the related ConfigEntry in your Options class
-                // Example:
-                // Unlimited = config.Bind(CONFIG_FIELD, "Unlimited", DEFAULT_UNLISETTING)
+                TogglePanel = config.Bind("Keybinds", "TogglePanel", KeyCode.F2, "Toggle the Trombuddies Panel."),
+                ToggleFriendOnly = config.Bind("Keybinds", "ToggleFriendOnly", KeyCode.F3, "Toggle show friends only."),
+                ToggleOnlineOnly = config.Bind("Keybinds", "ToggleOnlineOnly", KeyCode.F4, "Toggle show online users only."),
             };
 
-            settingPage = TootTallySettingsManager.AddNewPage("ModulePageName", "HeaderText", 40f, new Color(0,0,0,0));
-            if (settingPage != null) {
-                // Use TootTallySettingPage functions to add your objects to TootTallySetting
-                // Example:
-                // page.AddToggle(name, option.Unlimited);
-            }
+            settingPage = TootTallySettingsManager.AddNewPage("Trombuddies", "Trombuddies", 40f, new Color(0, 0, 0, 0));
+            settingPage.AddLabel("TogglePanelLabel", "Toggle Panel Keybind", 24, TMPro.FontStyles.Normal, TMPro.TextAlignmentOptions.BottomLeft);
+            settingPage.AddDropdown("Toggle Panel Keybind", option.TogglePanel);
+            settingPage.AddLabel("ToggleFriendsLabel", "Toggle Friends Only Keybind", 24, TMPro.FontStyles.Normal, TMPro.TextAlignmentOptions.BottomLeft);
+            settingPage.AddDropdown("Toggle Friends Only Keybind", option.ToggleFriendOnly);
+            settingPage.AddLabel("ToggleOnlineLabel", "Toggle Online Only Keybind", 24, TMPro.FontStyles.Normal, TMPro.TextAlignmentOptions.BottomLeft);
+            settingPage.AddDropdown("Toggle Online Only Keybind", option.ToggleOnlineOnly);
 
-            _harmony.PatchAll(typeof(ModuleTemplatePatches));
+            _harmony.PatchAll(typeof(TrombuddiesGameObjectFactory));
             LogInfo($"Module loaded!");
         }
 
@@ -76,16 +77,11 @@ namespace TootTally.ModuleTemplate
             LogInfo($"Module unloaded!");
         }
 
-        public static class ModuleTemplatePatches
-        {
-            // Apply your Trombone Champ patches here
-        }
-
         public class Options
         {
-            // Fill this class up with ConfigEntry objects that define your configs
-            // Example:
-            // public ConfigEntry<bool> Unlimited { get; set; }
+            public ConfigEntry<KeyCode> TogglePanel { get; set; }
+            public ConfigEntry<KeyCode> ToggleFriendOnly { get; set; }
+            public ConfigEntry<KeyCode> ToggleOnlineOnly { get; set; }
         }
     }
 }
