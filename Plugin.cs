@@ -18,7 +18,6 @@ namespace TootTallyTrombuddies
         public static Plugin Instance;
 
         private const string CONFIG_NAME = "Trombuddies.cfg";
-        public Options option;
         private Harmony _harmony;
         public ConfigEntry<bool> ModuleConfigEnabled { get; set; }
         public bool IsConfigInitialized { get; set; }
@@ -50,21 +49,18 @@ namespace TootTallyTrombuddies
         public void LoadModule()
         {
             string configPath = Path.Combine(Paths.BepInExRootPath, "config/");
-            ConfigFile config = new ConfigFile(configPath + CONFIG_NAME, true) {  SaveOnConfigSet = true };
-            option = new Options()
-            {
-                TogglePanel = config.Bind("Keybinds", "TogglePanel", KeyCode.F2, "Toggle the Trombuddies Panel."),
-                ToggleFriendOnly = config.Bind("Keybinds", "ToggleFriendOnly", KeyCode.F3, "Toggle show friends only."),
-                ToggleOnlineOnly = config.Bind("Keybinds", "ToggleOnlineOnly", KeyCode.F4, "Toggle show online users only."),
-            };
+            ConfigFile config = new ConfigFile(configPath + CONFIG_NAME, true) { SaveOnConfigSet = true };
+            TogglePanel = config.Bind("Keybinds", "TogglePanel", KeyCode.F2, "Toggle the Trombuddies Panel.");
+            ToggleFriendOnly = config.Bind("Keybinds", "ToggleFriendOnly", KeyCode.F3, "Toggle show friends only.");
+            ToggleOnlineOnly = config.Bind("Keybinds", "ToggleOnlineOnly", KeyCode.F4, "Toggle show online users only.");
 
             settingPage = TootTallySettingsManager.AddNewPage("Trombuddies", "Trombuddies", 40f, new Color(0, 0, 0, 0));
             settingPage.AddLabel("TogglePanelLabel", "Toggle Panel Keybind", 24, TMPro.FontStyles.Normal, TMPro.TextAlignmentOptions.BottomLeft);
-            settingPage.AddDropdown("Toggle Panel Keybind", option.TogglePanel);
+            settingPage.AddDropdown("Toggle Panel Keybind", TogglePanel);
             settingPage.AddLabel("ToggleFriendsLabel", "Toggle Friends Only Keybind", 24, TMPro.FontStyles.Normal, TMPro.TextAlignmentOptions.BottomLeft);
-            settingPage.AddDropdown("Toggle Friends Only Keybind", option.ToggleFriendOnly);
+            settingPage.AddDropdown("Toggle Friends Only Keybind", ToggleFriendOnly);
             settingPage.AddLabel("ToggleOnlineLabel", "Toggle Online Only Keybind", 24, TMPro.FontStyles.Normal, TMPro.TextAlignmentOptions.BottomLeft);
-            settingPage.AddDropdown("Toggle Online Only Keybind", option.ToggleOnlineOnly);
+            settingPage.AddDropdown("Toggle Online Only Keybind", ToggleOnlineOnly);
 
             _harmony.PatchAll(typeof(TrombuddiesGameObjectFactory));
             LogInfo($"Module loaded!");
@@ -77,11 +73,8 @@ namespace TootTallyTrombuddies
             LogInfo($"Module unloaded!");
         }
 
-        public class Options
-        {
-            public ConfigEntry<KeyCode> TogglePanel { get; set; }
-            public ConfigEntry<KeyCode> ToggleFriendOnly { get; set; }
-            public ConfigEntry<KeyCode> ToggleOnlineOnly { get; set; }
-        }
+        public ConfigEntry<KeyCode> TogglePanel { get; set; }
+        public ConfigEntry<KeyCode> ToggleFriendOnly { get; set; }
+        public ConfigEntry<KeyCode> ToggleOnlineOnly { get; set; }
     }
 }

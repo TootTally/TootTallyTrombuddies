@@ -15,7 +15,7 @@ namespace TootTallyTrombuddies
 {
     public class TrombuddiesManager : MonoBehaviour
     {
-        private static readonly List<KeyCode> _keyInputList = new() { Plugin.Instance.option.TogglePanel.Value, Plugin.Instance.option.ToggleFriendOnly.Value, Plugin.Instance.option.ToggleOnlineOnly.Value, KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.B, KeyCode.A };
+        private static readonly List<KeyCode> _keyInputList = new() { Plugin.Instance.TogglePanel.Value, Plugin.Instance.ToggleFriendOnly.Value, Plugin.Instance.ToggleOnlineOnly.Value, KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.B, KeyCode.A };
         private static readonly List<KeyCode> _kenoKeys = new List<KeyCode>{KeyCode.UpArrow, KeyCode.UpArrow,
                                        KeyCode.DownArrow, KeyCode.DownArrow,
                                        KeyCode.LeftArrow, KeyCode.RightArrow,
@@ -104,7 +104,7 @@ namespace TootTallyTrombuddies
         {
             if (!_isInitialized) return;
 
-            if (Input.GetKeyDown(Plugin.Instance.option.TogglePanel.Value))
+            if (Input.GetKeyDown(Plugin.Instance.TogglePanel.Value))
             {
                 UserStatusManager.ResetTimerAndWakeUpIfIdle();
                 TogglePanel();
@@ -131,13 +131,13 @@ namespace TootTallyTrombuddies
                 return;
             }
 
-            if (Plugin.Instance.option.ToggleOnlineOnly.Value == keypressed)
+            if (Plugin.Instance.ToggleOnlineOnly.Value == keypressed)
             {
                 _showAllSUsers = !_showAllSUsers;
                 TootTallyNotifManager.DisplayNotif(_showAllSUsers ? "Showing all users" : "Showing online users", Color.white);
                 UpdateUsers();
             }
-            else if (Plugin.Instance.option.ToggleFriendOnly.Value == keypressed)
+            else if (Plugin.Instance.ToggleFriendOnly.Value == keypressed)
             {
                 _showFriends = !_showFriends;
                 TootTallyNotifManager.DisplayNotif(_showFriends ? "Showing friends only" : "Showing non-friend users", Color.white);
