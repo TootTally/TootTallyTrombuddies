@@ -45,7 +45,6 @@ namespace TootTallyTrombuddies
         {
             if (_isInitialized) return;
             Initialize();
-            enabled = true;
             TootTallyNotifManager.DisplayNotif("TromBuddies Panel Initialized!", Color.white);
         }
 
@@ -207,17 +206,17 @@ namespace TootTallyTrombuddies
 
         public static void UpdateUsers()
         {
-            if (IsPanelActive && !_isUpdating)
+            if (IsPanelActive && !_isUpdating && TootTallyUser.userInfo != null)
             {
                 _isUpdating = true;
                 if (_showFriends && _showAllSUsers)
                     Plugin.Instance.StartCoroutine(TootTallyAPIService.GetFriendList(TootTallyAccounts.Plugin.GetAPIKey, OnUpdateUsersResponse));
                 else if (_showAllSUsers)
-                    Plugin.Instance.StartCoroutine(TootTallyAPIService.GetAllUsersUpToPageID(3, OnUpdateUsersResponse));
+                    Plugin.Instance.StartCoroutine(TootTallyAPIService.GetAllUsersUpToPageID(TootTallyUser.userInfo.id, 3, OnUpdateUsersResponse));
                 else if (_showFriends)
                     Plugin.Instance.StartCoroutine(TootTallyAPIService.GetOnlineFriends(TootTallyAccounts.Plugin.GetAPIKey, OnUpdateUsersResponse));
                 else
-                    Plugin.Instance.StartCoroutine(TootTallyAPIService.GetLatestOnlineUsers(OnUpdateUsersResponse));
+                    Plugin.Instance.StartCoroutine(TootTallyAPIService.GetLatestOnlineUsers(TootTallyUser.userInfo.id, OnUpdateUsersResponse));
             }
 
 

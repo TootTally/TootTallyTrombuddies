@@ -35,6 +35,7 @@ namespace TootTallyTrombuddies
             var fgRect = _userCardPrefab.transform.Find("LatencyFG").GetComponent<RectTransform>();
             var bgRect = _userCardPrefab.transform.Find("LatencyBG").GetComponent<RectTransform>();
             fgRect.GetComponent<Image>().maskable = bgRect.GetComponent<Image>().maskable = true;
+            fgRect.GetComponent<Image>().color = new Color(.1f, .1f, .1f);
             var size = new Vector2(360, 100);
             fgRect.sizeDelta = size;
             fgRect.anchoredPosition = Vector2.zero;
