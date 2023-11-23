@@ -2,9 +2,11 @@
 using BepInEx;
 using BepInEx.Configuration;
 using HarmonyLib;
+using System;
 using System.IO;
 using TootTallyCore.Utils.TootTallyModules;
 using TootTallySettings;
+using TootTallySettings.TootTallySettingsObjects;
 using UnityEngine;
 
 namespace TootTallyTrombuddies
@@ -24,6 +26,7 @@ namespace TootTallyTrombuddies
         public string Name { get => "Trombuddies"; set => Name = value; }
 
         public static TootTallySettingPage settingPage;
+        private static TootTallySettingDropdown _toggleDropdown, _toggleFriendDropdown, _toggleOnlineDropdown;
 
         public static void LogInfo(string msg) => Instance.Logger.LogInfo(msg);
         public static void LogError(string msg) => Instance.Logger.LogError(msg);
@@ -54,14 +57,23 @@ namespace TootTallyTrombuddies
 
             settingPage = TootTallySettingsManager.AddNewPage("Trombuddies", "Trombuddies", 40f, new Color(0, 0, 0, 0));
             settingPage.AddLabel("TogglePanelLabel", "Toggle Panel Keybind", 24, TMPro.FontStyles.Normal, TMPro.TextAlignmentOptions.BottomLeft);
-            settingPage.AddDropdown("Toggle Panel Keybind", TogglePanel);
+            _toggleDropdown = settingPage.AddDropdown("Toggle Panel Keybind", TogglePanel);
             settingPage.AddLabel("ToggleFriendsLabel", "Toggle Friends Only Keybind", 24, TMPro.FontStyles.Normal, TMPro.TextAlignmentOptions.BottomLeft);
-            settingPage.AddDropdown("Toggle Friends Only Keybind", ToggleFriendOnly);
+            _toggleFriendDropdown = settingPage.AddDropdown("Toggle Friends Only Keybind", ToggleFriendOnly);
             settingPage.AddLabel("ToggleOnlineLabel", "Toggle Online Only Keybind", 24, TMPro.FontStyles.Normal, TMPro.TextAlignmentOptions.BottomLeft);
-            settingPage.AddDropdown("Toggle Online Only Keybind", ToggleOnlineOnly);
+            _toggleOnlineDropdown = settingPage.AddDropdown("Toggle Online Only Keybind", ToggleOnlineOnly);
+            settingPage.AddButton("Reset Keybinds", ResetKeybinds);
 
             _harmony.PatchAll(typeof(TrombuddiesGameObjectFactory));
             LogInfo($"Module loaded!");
+        }
+
+        private void ResetKeybinds()
+        {
+            _toggleDropdown.dropdown.value = _toggleDropdown.dropdown.options.FindIndex(x => x.text == KeyCode.F2.ToString());
+            _toggleFriendDropdown.dropdown.value = _toggleFriendDropdown.dropdown.options.FindIndex(x => x.text == KeyCode.F3.ToString());
+            _toggleOnlineDropdown.dropdown.value = _toggleOnlineDropdown.dropdown.options.FindIndex(x => x.text == KeyCode.F4.ToString());
+            
         }
 
         public void UnloadModule()
