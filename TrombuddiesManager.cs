@@ -15,7 +15,7 @@ namespace TootTallyTrombuddies
 {
     public class TrombuddiesManager : MonoBehaviour
     {
-        private static readonly List<KeyCode> _keyInputList = new() { Plugin.Instance.TogglePanel.Value, Plugin.Instance.ToggleFriendOnly.Value, Plugin.Instance.ToggleOnlineOnly.Value, KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.B, KeyCode.A };
+        private static readonly List<KeyCode> _keyInputList = new() { Plugin.Instance.ToggleFriendOnly.Value, Plugin.Instance.ToggleOnlineOnly.Value, KeyCode.UpArrow, KeyCode.DownArrow, KeyCode.LeftArrow, KeyCode.RightArrow, KeyCode.B, KeyCode.A };
         private static readonly List<KeyCode> _kenoKeys = new List<KeyCode>{KeyCode.UpArrow, KeyCode.UpArrow,
                                        KeyCode.DownArrow, KeyCode.DownArrow,
                                        KeyCode.LeftArrow, KeyCode.RightArrow,
