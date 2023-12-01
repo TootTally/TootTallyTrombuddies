@@ -64,6 +64,8 @@ namespace TootTallyTrombuddies
             _toggleOnlineDropdown = settingPage.AddDropdown("Toggle Online Only Keybind", ToggleOnlineOnly);
             settingPage.AddButton("Reset Keybinds", ResetKeybinds);
 
+            TootTallySettings.Plugin.TryAddThunderstoreIconToPageButton(Instance.Info.Location, Name, settingPage);
+
             _harmony.PatchAll(typeof(TrombuddiesGameObjectFactory));
             LogInfo($"Module loaded!");
         }

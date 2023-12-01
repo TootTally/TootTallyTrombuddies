@@ -136,7 +136,7 @@ namespace TootTallyTrombuddies
                     GameObjectFactory.CreateCustomButton(rightContent.transform, Vector2.zero, new Vector2(30, 30), "-", "RemoveFriendButton", delegate { TrombuddiesManager.OnRemoveButtonPress(user); });
                 else
                     GameObjectFactory.CreateCustomButton(rightContent.transform, Vector2.zero, new Vector2(30, 30), "+", "AddFriendButton", delegate { TrombuddiesManager.OnAddButtonPress(user); });
-                GameObjectFactory.CreateCustomButton(rightContent.transform, Vector2.zero, new Vector2(30, 30), "P", "OpenProfileButton", delegate { TrombuddiesManager.OpenUserProfile(user.id); });
+                GameObjectFactory.CreateCustomButton(rightContent.transform, Vector2.zero, new Vector2(30, 30), AssetManager.GetSprite("profile64.png"), "OpenProfileButton", delegate { TrombuddiesManager.OpenUserProfile(user.id); });
             }
             else
             {

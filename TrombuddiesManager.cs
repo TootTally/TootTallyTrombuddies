@@ -226,7 +226,7 @@ namespace TootTallyTrombuddies
         private static void OnUpdateUsersResponse(List<User> users)
         {
             ClearUsers();
-            users.ForEach(user =>
+            users?.ForEach(user =>
             {
                 _userObjectList.Add(TrombuddiesGameObjectFactory.CreateUserCard(_overlayPanelContainer.transform, user, GetStatusString(user)));
             });
@@ -267,8 +267,8 @@ namespace TootTallyTrombuddies
 
         public static void ClearUsers()
         {
-            _userObjectList.ForEach(DestroyImmediate);
-            _userObjectList.Clear();
+            _userObjectList?.ForEach(DestroyImmediate);
+            _userObjectList?.Clear();
         }
 
         public static void UpdateTheme()
