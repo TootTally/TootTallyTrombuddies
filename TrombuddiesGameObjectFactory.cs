@@ -148,9 +148,9 @@ namespace TootTallyTrombuddies
                 var bgColor = card.transform.Find("LatencyBG").GetComponent<Image>().color = UserFriendStatusToColor(user.friend_status);
                 GameObjectFactory.TintImage(card.transform.Find("LatencyFG").GetComponent<Image>(), bgColor, .1f);
                 if (user.friend_status == "Friend" || user.friend_status == "Mutuals")
-                    GameObjectFactory.CreateCustomButton(rightContent.transform, Vector2.zero, Vector2.one * 45, "-", "RemoveFriendButton", delegate { TrombuddiesManager.OnRemoveButtonPress(user); });
+                    GameObjectFactory.CreateCustomButton(rightContent.transform, Vector2.zero, Vector2.one * 45, AssetManager.GetSprite("UserRemove64.png"), "RemoveFriendButton", delegate { TrombuddiesManager.OnRemoveButtonPress(user); });
                 else
-                    GameObjectFactory.CreateCustomButton(rightContent.transform, Vector2.zero, Vector2.one * 45, "+", "AddFriendButton", delegate { TrombuddiesManager.OnAddButtonPress(user); });
+                    GameObjectFactory.CreateCustomButton(rightContent.transform, Vector2.zero, Vector2.one * 45, AssetManager.GetSprite("UserAdd64.png"), "AddFriendButton", delegate { TrombuddiesManager.OnAddButtonPress(user); });
             }
             else
             {
