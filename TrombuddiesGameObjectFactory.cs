@@ -1,14 +1,11 @@
 ﻿using HarmonyLib;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using TMPro;
 using TootTallyCore.APIServices;
 using TootTallyCore.Graphics;
 using TootTallyCore.Utils.Assets;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 namespace TootTallyTrombuddies
@@ -121,6 +118,24 @@ namespace TootTallyTrombuddies
                 AssetManager.GetProfilePictureByID(user.id, sprite => pfp.sprite = sprite);
 
 
+            var eventTrigger = pfp.gameObject.AddComponent<EventTrigger>();
+
+            EventTrigger.Entry pointerClickEvent = new EventTrigger.Entry();
+            pointerClickEvent.eventID = EventTriggerType.PointerClick;
+            pointerClickEvent.callback.AddListener(delegate { TrombuddiesManager.OpenUserProfile(user.id); });
+            eventTrigger.triggers.Add(pointerClickEvent);
+
+            EventTrigger.Entry pointerEnterEvent = new EventTrigger.Entry();
+            pointerEnterEvent.eventID = EventTriggerType.PointerEnter;
+            pointerEnterEvent.callback.AddListener(delegate { GameObjectFactory.TintImage(pfp, Color.black, .25f); });
+            eventTrigger.triggers.Add(pointerEnterEvent);
+
+            EventTrigger.Entry pointerLeaveEvent = new EventTrigger.Entry();
+            pointerLeaveEvent.eventID = EventTriggerType.PointerExit;
+            pointerLeaveEvent.callback.AddListener(delegate { pfp.color = Color.white; });
+            eventTrigger.triggers.Add(pointerLeaveEvent);
+
+
             var t1 = GameObjectFactory.CreateSingleText(leftContent.transform, "Name", $"{user.username}", Color.white);
             var t2 = GameObjectFactory.CreateSingleText(leftContent.transform, "Status", $"{status}", Color.white);
             t1.enableWordWrapping = t2.enableWordWrapping = false;
@@ -133,10 +148,9 @@ namespace TootTallyTrombuddies
                 var bgColor = card.transform.Find("LatencyBG").GetComponent<Image>().color = UserFriendStatusToColor(user.friend_status);
                 GameObjectFactory.TintImage(card.transform.Find("LatencyFG").GetComponent<Image>(), bgColor, .1f);
                 if (user.friend_status == "Friend" || user.friend_status == "Mutuals")
-                    GameObjectFactory.CreateCustomButton(rightContent.transform, Vector2.zero, new Vector2(30, 30), "-", "RemoveFriendButton", delegate { TrombuddiesManager.OnRemoveButtonPress(user); });
+                    GameObjectFactory.CreateCustomButton(rightContent.transform, Vector2.zero, Vector2.one * 45, "-", "RemoveFriendButton", delegate { TrombuddiesManager.OnRemoveButtonPress(user); });
                 else
-                    GameObjectFactory.CreateCustomButton(rightContent.transform, Vector2.zero, new Vector2(30, 30), "+", "AddFriendButton", delegate { TrombuddiesManager.OnAddButtonPress(user); });
-                GameObjectFactory.CreateCustomButton(rightContent.transform, Vector2.zero, new Vector2(30, 30), AssetManager.GetSprite("profile64.png"), "OpenProfileButton", delegate { TrombuddiesManager.OpenUserProfile(user.id); });
+                    GameObjectFactory.CreateCustomButton(rightContent.transform, Vector2.zero, Vector2.one * 45, "+", "AddFriendButton", delegate { TrombuddiesManager.OnAddButtonPress(user); });
             }
             else
             {
