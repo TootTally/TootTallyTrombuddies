@@ -136,8 +136,8 @@ namespace TootTallyTrombuddies
             eventTrigger.triggers.Add(pointerLeaveEvent);
 
 
-            var t1 = GameObjectFactory.CreateSingleText(leftContent.transform, "Name", $"{user.username}", Color.white);
-            var t2 = GameObjectFactory.CreateSingleText(leftContent.transform, "Status", $"{status}", Color.white);
+            var t1 = GameObjectFactory.CreateSingleText(leftContent.transform, "Name", $"{user.username}");
+            var t2 = GameObjectFactory.CreateSingleText(leftContent.transform, "Status", $"{status}");
             t1.enableWordWrapping = t2.enableWordWrapping = false;
             t1.overflowMode = t2.overflowMode = TextOverflowModes.Ellipsis;
 

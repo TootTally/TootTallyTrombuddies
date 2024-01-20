@@ -45,7 +45,7 @@ namespace TootTallyTrombuddies
         {
             if (_isInitialized) return;
             Initialize();
-            TootTallyNotifManager.DisplayNotif("TromBuddies Panel Initialized!", Color.white);
+            TootTallyNotifManager.DisplayNotif("TromBuddies Panel Initialized!");
         }
 
         private static void Initialize()
@@ -81,7 +81,7 @@ namespace TootTallyTrombuddies
             _overlayPanelContainer.transform.parent.gameObject.AddComponent<Mask>();
             GameObjectFactory.DestroyFromParent(_overlayPanelContainer.transform.parent.gameObject, "subtitle");
             GameObjectFactory.DestroyFromParent(_overlayPanelContainer.transform.parent.gameObject, "title");
-            var text = GameObjectFactory.CreateSingleText(_overlayPanelContainer.transform, "title", "TromBuddies (EARLY ACCESS)", Color.white);
+            var text = GameObjectFactory.CreateSingleText(_overlayPanelContainer.transform, "title", "TromBuddies");
             _titleText = text.GetComponent<TMP_Text>();
             var layoutElement = text.gameObject.AddComponent<LayoutElement>();
             layoutElement.ignoreLayout = true;
@@ -126,20 +126,20 @@ namespace TootTallyTrombuddies
         {
             if (_isUpdating)
             {
-                TootTallyNotifManager.DisplayNotif("Panel currently updating, be patient!", Color.white);
+                TootTallyNotifManager.DisplayNotif("Panel currently updating, be patient!");
                 return;
             }
 
             if (Plugin.Instance.ToggleOnlineOnly.Value == keypressed)
             {
                 _showAllSUsers = !_showAllSUsers;
-                TootTallyNotifManager.DisplayNotif(_showAllSUsers ? "Showing all users" : "Showing online users", Color.white);
+                TootTallyNotifManager.DisplayNotif(_showAllSUsers ? "Showing all users" : "Showing online users");
                 UpdateUsers();
             }
             else if (Plugin.Instance.ToggleFriendOnly.Value == keypressed)
             {
                 _showFriends = !_showFriends;
-                TootTallyNotifManager.DisplayNotif(_showFriends ? "Showing friends only" : "Showing non-friend users", Color.white);
+                TootTallyNotifManager.DisplayNotif(_showFriends ? "Showing friends only" : "Showing non-friend users");
                 UpdateUsers();
             }
 
@@ -159,7 +159,7 @@ namespace TootTallyTrombuddies
         private static void OnKenomiCodeEnter()
         {
             _titleText.text = "BonerBuddies";
-            TootTallyNotifManager.DisplayNotif("Secret found... ☠", Color.white);
+            TootTallyNotifManager.DisplayNotif("Secret found... ☠");
             _kenoIndex = -1;
         }
 
@@ -262,7 +262,7 @@ namespace TootTallyTrombuddies
         {
             if (value)
                 UpdateUsers();
-            TootTallyNotifManager.DisplayNotif(value ? "Friend list updated." : "Action couldn't be done.", Color.white);
+            TootTallyNotifManager.DisplayNotif(value ? "Friend list updated." : "Action couldn't be done.");
         }
 
         public static void ClearUsers()
