@@ -4,6 +4,7 @@ using BepInEx.Configuration;
 using HarmonyLib;
 using System;
 using System.IO;
+using TootTallyCore;
 using TootTallyCore.Utils.TootTallyModules;
 using TootTallySettings;
 using TootTallySettings.TootTallySettingsObjects;
@@ -65,6 +66,7 @@ namespace TootTallyTrombuddies
             settingPage.AddButton("Reset Keybinds", ResetKeybinds);
 
             TootTallySettings.Plugin.TryAddThunderstoreIconToPageButton(Instance.Info.Location, Name, settingPage);
+            ThemeManager.OnThemeRefreshEvents += TrombuddiesManager.UpdateTheme;
 
             _harmony.PatchAll(typeof(TrombuddiesGameObjectFactory));
             LogInfo($"Module loaded!");
@@ -80,6 +82,7 @@ namespace TootTallyTrombuddies
 
         public void UnloadModule()
         {
+            ThemeManager.OnThemeRefreshEvents -= TrombuddiesManager.UpdateTheme;
             TrombuddiesGameObjectFactory.Dispose();
             _harmony.UnpatchSelf();
             settingPage.Remove();

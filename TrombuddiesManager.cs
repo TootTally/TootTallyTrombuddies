@@ -283,7 +283,6 @@ namespace TootTallyTrombuddies
             if (!_isInitialized) return; //just in case too
 
             GameObject.DestroyImmediate(_overlayCanvas);
-            GameObject.DestroyImmediate(_overlayPanel);
             _isInitialized = false;
         }
     }
